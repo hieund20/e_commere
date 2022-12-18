@@ -61,6 +61,11 @@ namespace ECOMERE_BE.Models
 
                 entity.Property(e => e.Quantity).HasColumnName("quantity");
 
+                entity.Property(e => e.SessionCartId)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("session_cart_id");
+
                 entity.Property(e => e.UserId)
                     .HasMaxLength(200)
                     .IsUnicode(false)
