@@ -12,7 +12,7 @@ namespace ECOMERE_BE.Providers
         {
             try
             {
-                var data = await db.User.OrderBy(c => c.CreatedAt).ToListAsync();
+                var data = await db.User.Include(u => u.UserRole).OrderBy(c => c.CreatedAt).ToListAsync();
                 return data;
             }
             catch (Exception ex)

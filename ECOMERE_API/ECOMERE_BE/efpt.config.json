@@ -27,6 +27,14 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[order]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[order_detail]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[product]",
          "ObjectType": 0
       },
@@ -36,6 +44,10 @@
       },
       {
          "Name": "[dbo].[user]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[user_role]",
          "ObjectType": 0
       }
    ],

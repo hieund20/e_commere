@@ -10,6 +10,8 @@ namespace ECOMERE_BE.Models
         public User()
         {
             Cart = new HashSet<Cart>();
+            Order = new HashSet<Order>();
+            UserRole = new HashSet<UserRole>();
         }
 
         public string Id { get; set; }
@@ -26,5 +28,7 @@ namespace ECOMERE_BE.Models
         public bool? IsActive { get; set; }
 
         public virtual ICollection<Cart> Cart { get; set; }
+        public virtual ICollection<Order> Order { get; set; }
+        public virtual ICollection<UserRole> UserRole { get; set; }
     }
 }

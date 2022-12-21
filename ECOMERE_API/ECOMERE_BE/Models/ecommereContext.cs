@@ -21,9 +21,12 @@ namespace ECOMERE_BE.Models
         public virtual DbSet<Cart> Cart { get; set; }
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Comment> Comment { get; set; }
+        public virtual DbSet<Order> Order { get; set; }
+        public virtual DbSet<OrderDetail> OrderDetail { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<ProductImage> ProductImage { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<UserRole> UserRole { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -156,6 +159,107 @@ namespace ECOMERE_BE.Models
                     .WithMany(p => p.Comment)
                     .HasForeignKey(d => d.ProductId)
                     .HasConstraintName("FK_comment_product");
+            });
+
+            modelBuilder.Entity<Order>(entity =>
+            {
+                entity.ToTable("order");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("id");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("created_at");
+
+                entity.Property(e => e.CreatedBy)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("created_by");
+
+                entity.Property(e => e.ModifiedAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("modified_at");
+
+                entity.Property(e => e.ModifiedBy)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("modified_by");
+
+                entity.Property(e => e.PaymentTransactionId)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("paymentTransactionID");
+
+                entity.Property(e => e.Total)
+                    .HasColumnType("decimal(18, 0)")
+                    .HasColumnName("total");
+
+                entity.Property(e => e.UserId)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("user_id");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Order)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_order_user");
+            });
+
+            modelBuilder.Entity<OrderDetail>(entity =>
+            {
+                entity.ToTable("order_detail");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("id");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("created_at");
+
+                entity.Property(e => e.CreatedBy)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("created_by");
+
+                entity.Property(e => e.ModifiedAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("modified_at");
+
+                entity.Property(e => e.ModifiedBy)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("modified_by");
+
+                entity.Property(e => e.OrderId)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("order_id");
+
+                entity.Property(e => e.ProductId)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("product_id");
+
+                entity.Property(e => e.Quantity).HasColumnName("quantity");
+
+                entity.Property(e => e.UnitPrice)
+                    .HasColumnType("decimal(18, 0)")
+                    .HasColumnName("unit_price");
+
+                entity.HasOne(d => d.Order)
+                    .WithMany(p => p.OrderDetail)
+                    .HasForeignKey(d => d.OrderId)
+                    .HasConstraintName("FK_order_detail_order");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.OrderDetail)
+                    .HasForeignKey(d => d.ProductId)
+                    .HasConstraintName("FK_order_detail_product");
             });
 
             modelBuilder.Entity<Product>(entity =>
@@ -295,6 +399,49 @@ namespace ECOMERE_BE.Models
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("phone");
+            });
+
+            modelBuilder.Entity<UserRole>(entity =>
+            {
+                entity.ToTable("user_role");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("id");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("created_at");
+
+                entity.Property(e => e.CreatedBy)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("created_by");
+
+                entity.Property(e => e.ModifiedAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("modified_at");
+
+                entity.Property(e => e.ModifiedBy)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("modified_by");
+
+                entity.Property(e => e.UserId)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("user_id");
+
+                entity.Property(e => e.UserRole1)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("user_role");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserRole)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_user_role_user");
             });
 
             OnModelCreatingPartial(modelBuilder);

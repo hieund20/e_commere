@@ -11,6 +11,7 @@ namespace ECOMERE_BE.Models
         {
             Cart = new HashSet<Cart>();
             Comment = new HashSet<Comment>();
+            OrderDetail = new HashSet<OrderDetail>();
             ProductImage = new HashSet<ProductImage>();
         }
 
@@ -28,6 +29,7 @@ namespace ECOMERE_BE.Models
         public virtual Category Category { get; set; }
         public virtual ICollection<Cart> Cart { get; set; }
         public virtual ICollection<Comment> Comment { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetail { get; set; }
         public virtual ICollection<ProductImage> ProductImage { get; set; }
     }
 }
