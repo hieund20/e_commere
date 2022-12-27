@@ -124,7 +124,7 @@ namespace ECOMERE_BE.Controllers
             }
         }
 
-        [HttpDelete("company/{id}")]
+        [HttpDelete("category/{id}")]
         public async Task<JsonResult> DeleteCategory(string id)
         {
             try

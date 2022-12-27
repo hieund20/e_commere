@@ -21,7 +21,7 @@ namespace ECOMERE_BE.Providers
 
         public async Task<Product> GetProductByIDAsync(string ID)
         {
-            return await db.Product.Where(c => c.Id == ID).FirstOrDefaultAsync();
+            return await db.Product.Include(c => c.Comment).Where(c => c.Id == ID).FirstOrDefaultAsync();
         }
 
         public async Task<Product> AddNewProductAsync(Product newProduct)

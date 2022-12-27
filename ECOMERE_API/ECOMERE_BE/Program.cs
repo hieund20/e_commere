@@ -19,6 +19,16 @@ builder.Services.AddDbContext<CoreDbContext>(op => op.UseSqlServer(builder.Confi
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:4200")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+        });
+});
 
 var app = builder.Build();
 
@@ -36,5 +46,15 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.UseSession();
+
+app.UseCors(
+    builder =>
+    {
+        builder
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    }
+);
 
 app.Run();
