@@ -1,5 +1,8 @@
 ﻿using ECOMERE_BE.Models;
+using ECOMERE_BE.Configs;
 using Microsoft.EntityFrameworkCore;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace ECOMERE_BE.Providers
@@ -73,6 +76,22 @@ namespace ECOMERE_BE.Providers
                 SubSubProduct existingSubSubProduct = await db.SubSubProduct.Where(c => c.Id.Equals(id)).FirstOrDefaultAsync();
                 if (existingSubSubProduct != null)
                 {
+                    // var cloundianrySetting = new CloudinarySettings();
+                    Account account = new Account(
+                        "dna6tju5f",
+                        "279236311696287",
+                        "PlcPbWSU7SwBm2AFtgbxD6LxZUc"
+                    );
+                    Cloudinary cloudinary = new Cloudinary(account);
+                    cloudinary.Api.Secure = true;
+
+                    var uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(file.Name, file.OpenReadStream()),
+                    };
+                    var uploadResult = cloudinary.Upload(uploadParams);
+
+                    existingSubSubProduct.ImagePath = uploadResult.SecureUri.ToString();
                     existingSubSubProduct.ModifiedAt = DateTime.Now;
                     await db.SaveChangesAsync();
                     return existingSubSubProduct;

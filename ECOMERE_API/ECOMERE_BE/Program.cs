@@ -1,6 +1,7 @@
 using ECOMERE_BE.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
+using ECOMERE_BE.Configs;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,6 +30,7 @@ builder.Services.AddCors(options =>
                                 .AllowAnyMethod();
         });
 });
+builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloundinarySettings"));
 
 var app = builder.Build();
 
