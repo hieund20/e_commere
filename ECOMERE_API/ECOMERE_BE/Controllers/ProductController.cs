@@ -23,12 +23,13 @@ namespace ECOMERE_BE.Controllers
             try
             {
                 var allCategory = await _productProvider.GetAllAsync();
-                return new JsonResult(new { 
+                return new JsonResult(new
+                {
                     success = true,
                     data = allCategory
                 });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new JsonResult(new
                 {
@@ -65,7 +66,7 @@ namespace ECOMERE_BE.Controllers
         {
             try
             {
-                var newProduct= await _productProvider.AddNewProductAsync(product);
+                var newProduct = await _productProvider.AddNewProductAsync(product);
                 if (newProduct != null)
                 {
                     return new JsonResult(new
@@ -81,8 +82,8 @@ namespace ECOMERE_BE.Controllers
                         success = false
                     });
                 }
-            } 
-            catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return new JsonResult(new
                 {
@@ -98,6 +99,38 @@ namespace ECOMERE_BE.Controllers
             try
             {
                 var modifiedProduct = await _productProvider.UpdateProductAsync(id, product);
+                if (modifiedProduct != null)
+                {
+                    return new JsonResult(new
+                    {
+                        success = true,
+                        data = modifiedProduct
+                    });
+                }
+                else
+                {
+                    return new JsonResult(new
+                    {
+                        success = false
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new
+                {
+                    success = false,
+                    message = ex.Message
+                });
+            }
+        }
+
+        [HttpPut("product/uploadImage/{id}")]
+        public async Task<JsonResult> PutProductImage(string id, IFormFile file)
+        {
+            try
+            {
+                var modifiedProduct = await _productProvider.UpdateProductImageAsync(id, file);
                 if (modifiedProduct != null)
                 {
                     return new JsonResult(new

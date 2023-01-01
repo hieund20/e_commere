@@ -1,6 +1,8 @@
 ﻿using ECOMERE_BE.Models;
 using Microsoft.EntityFrameworkCore;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 
 namespace ECOMERE_BE.Providers
 {
@@ -51,6 +53,43 @@ namespace ECOMERE_BE.Providers
                     existingProduct.UnitPrice = modifiedProduct.UnitPrice;
                     existingProduct.Quantity = modifiedProduct.Quantity;
                     existingProduct.IsHidden = modifiedProduct.IsHidden;
+                    existingProduct.ModifiedAt = DateTime.Now;
+                    await db.SaveChangesAsync();
+                    return existingProduct;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<Product> UpdateProductImageAsync(string id, IFormFile file)
+        {
+            try
+            {
+                Product existingProduct = await db.Product.Where(c => c.Id.Equals(id)).FirstOrDefaultAsync();
+                if (existingProduct != null)
+                {
+                    Account account = new Account(
+                       "dna6tju5f",
+                       "279236311696287",
+                       "PlcPbWSU7SwBm2AFtgbxD6LxZUc"
+                   );
+                    Cloudinary cloudinary = new Cloudinary(account);
+                    cloudinary.Api.Secure = true;
+
+                    var uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(file.Name, file.OpenReadStream()),
+                    };
+                    var uploadResult = cloudinary.Upload(uploadParams);
+
+                    existingProduct.ImagePath = uploadResult.SecureUri.ToString();
                     existingProduct.ModifiedAt = DateTime.Now;
                     await db.SaveChangesAsync();
                     return existingProduct;
