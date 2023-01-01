@@ -39,7 +39,11 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[product_image]",
+         "Name": "[dbo].[sub_product]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[sub_sub_product]",
          "ObjectType": 0
       },
       {

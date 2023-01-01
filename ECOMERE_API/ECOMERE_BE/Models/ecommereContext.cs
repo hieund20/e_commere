@@ -24,7 +24,8 @@ namespace ECOMERE_BE.Models
         public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<OrderDetail> OrderDetail { get; set; }
         public virtual DbSet<Product> Product { get; set; }
-        public virtual DbSet<ProductImage> ProductImage { get; set; }
+        public virtual DbSet<SubProduct> SubProduct { get; set; }
+        public virtual DbSet<SubSubProduct> SubSubProduct { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserRole> UserRole { get; set; }
 
@@ -285,6 +286,11 @@ namespace ECOMERE_BE.Models
                     .IsUnicode(false)
                     .HasColumnName("created_by");
 
+                entity.Property(e => e.ImagePath)
+                    .HasMaxLength(1000)
+                    .IsUnicode(false)
+                    .HasColumnName("image_path");
+
                 entity.Property(e => e.IsHidden)
                     .HasColumnName("is_hidden")
                     .HasDefaultValueSql("((0))");
@@ -316,19 +322,35 @@ namespace ECOMERE_BE.Models
                     .HasConstraintName("FK_product_category");
             });
 
-            modelBuilder.Entity<ProductImage>(entity =>
+            modelBuilder.Entity<SubProduct>(entity =>
             {
-                entity.ToTable("product_image");
+                entity.ToTable("sub_product");
 
                 entity.Property(e => e.Id)
                     .HasMaxLength(200)
                     .IsUnicode(false)
                     .HasColumnName("id");
 
-                entity.Property(e => e.Path)
-                    .HasMaxLength(500)
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("created_at");
+
+                entity.Property(e => e.CreatedBy)
+                    .HasMaxLength(200)
                     .IsUnicode(false)
-                    .HasColumnName("path");
+                    .HasColumnName("created_by");
+
+                entity.Property(e => e.ModifiedAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("modified_at");
+
+                entity.Property(e => e.ModifiedBy)
+                    .HasMaxLength(200)
+                    .HasColumnName("modified_by");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(255)
+                    .HasColumnName("name");
 
                 entity.Property(e => e.ProductId)
                     .HasMaxLength(200)
@@ -336,9 +358,61 @@ namespace ECOMERE_BE.Models
                     .HasColumnName("product_id");
 
                 entity.HasOne(d => d.Product)
-                    .WithMany(p => p.ProductImage)
+                    .WithMany(p => p.SubProduct)
                     .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK_product_image_product");
+                    .HasConstraintName("FK_sub_product_product");
+            });
+
+            modelBuilder.Entity<SubSubProduct>(entity =>
+            {
+                entity.ToTable("sub_sub_product");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("id");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("created_at");
+
+                entity.Property(e => e.CreatedBy)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("created_by");
+
+                entity.Property(e => e.ImagePath)
+                    .HasMaxLength(1000)
+                    .IsUnicode(false)
+                    .HasColumnName("image_path");
+
+                entity.Property(e => e.ModifiedAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("modified_at");
+
+                entity.Property(e => e.ModifiedBy)
+                    .HasMaxLength(200)
+                    .HasColumnName("modified_by");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(255)
+                    .HasColumnName("name");
+
+                entity.Property(e => e.Quantity).HasColumnName("quantity");
+
+                entity.Property(e => e.SubProductId)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("sub_product_id");
+
+                entity.Property(e => e.UnitPrice)
+                    .HasColumnType("decimal(18, 0)")
+                    .HasColumnName("unit_price");
+
+                entity.HasOne(d => d.SubProduct)
+                    .WithMany(p => p.SubSubProduct)
+                    .HasForeignKey(d => d.SubProductId)
+                    .HasConstraintName("FK_sub_sub_product_sub_product");
             });
 
             modelBuilder.Entity<User>(entity =>
