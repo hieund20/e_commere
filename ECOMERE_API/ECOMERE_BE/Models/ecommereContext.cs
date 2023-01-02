@@ -357,6 +357,11 @@ namespace ECOMERE_BE.Models
                     .IsUnicode(false)
                     .HasColumnName("product_id");
 
+                entity.Property(e => e.Type)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("type");
+
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.SubProduct)
                     .HasForeignKey(d => d.ProductId)
@@ -371,6 +376,11 @@ namespace ECOMERE_BE.Models
                     .HasMaxLength(200)
                     .IsUnicode(false)
                     .HasColumnName("id");
+
+                entity.Property(e => e.Color)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("color");
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
