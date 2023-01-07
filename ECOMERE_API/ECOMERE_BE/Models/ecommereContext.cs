@@ -59,18 +59,27 @@ namespace ECOMERE_BE.Models
                     .HasColumnName("modified_by");
 
                 entity.Property(e => e.ProductId)
+                    .IsRequired()
                     .HasMaxLength(200)
                     .IsUnicode(false)
                     .HasColumnName("product_id");
 
                 entity.Property(e => e.Quantity).HasColumnName("quantity");
 
-                entity.Property(e => e.SessionCartId)
+                entity.Property(e => e.SubProductId)
+                    .IsRequired()
                     .HasMaxLength(200)
                     .IsUnicode(false)
-                    .HasColumnName("session_cart_id");
+                    .HasColumnName("sub_product_id");
+
+                entity.Property(e => e.SubSubProductId)
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("sub_sub_product_id");
 
                 entity.Property(e => e.UserId)
+                    .IsRequired()
                     .HasMaxLength(200)
                     .IsUnicode(false)
                     .HasColumnName("user_id");
@@ -78,11 +87,13 @@ namespace ECOMERE_BE.Models
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.Cart)
                     .HasForeignKey(d => d.ProductId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_cart_product");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Cart)
                     .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_cart_user");
             });
 

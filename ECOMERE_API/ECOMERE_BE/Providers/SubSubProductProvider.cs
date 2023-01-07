@@ -53,6 +53,7 @@ namespace ECOMERE_BE.Providers
                     existingSubSubProduct.Name = modifiedSubSubProduct.Name;
                     existingSubSubProduct.UnitPrice = modifiedSubSubProduct.UnitPrice;
                     existingSubSubProduct.Quantity = modifiedSubSubProduct.Quantity;
+                    existingSubSubProduct.Color = modifiedSubSubProduct.Color;
 
                     existingSubSubProduct.ModifiedAt = DateTime.Now;
                     await db.SaveChangesAsync();

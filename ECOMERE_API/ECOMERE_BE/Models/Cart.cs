@@ -8,11 +8,12 @@ namespace ECOMERE_BE.Models
     public partial class Cart
     {
         public string Id { get; set; }
-        public string SessionCartId { get; set; }
         public string UserId { get; set; }
-        public int? Quantity { get; set; }
+        public int Quantity { get; set; }
         public string ProductId { get; set; }
-        public DateTime? CreatedAt { get; set; }
+        public string SubProductId { get; set; }
+        public string SubSubProductId { get; set; }
+        public DateTime CreatedAt { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? ModifiedAt { get; set; }
         public string ModifiedBy { get; set; }

@@ -10,7 +10,7 @@ namespace ECOMERE_BE.Controllers
     public class CartController : ControllerBase
     {
         private readonly ILogger<CartController> _logger;
-        private readonly CartProvider _cartProvider = new CartProvider();
+        private readonly CartProvider _provider = new CartProvider();
 
         public CartController(ILogger<CartController> logger)
         {
@@ -22,7 +22,7 @@ namespace ECOMERE_BE.Controllers
         {
             try
             {
-                var allCart = await _cartProvider.GetAllAsync();
+                var allCart = await _provider.GetAllAsync();
                 return new JsonResult(new { 
                     success = true,
                     data = allCart
@@ -39,17 +39,17 @@ namespace ECOMERE_BE.Controllers
         }
 
         [HttpPost("cart/addProductToCart")]
-        public async Task<JsonResult> AddProductToCart(string productId)
+        public async Task<JsonResult> AddProductToCart([FromBody] Cart cart)
         {
             try
             {
-                var updateCart = await _cartProvider.AddProductToCartAsync(productId);
-                if (updateCart != null)
+                var newItem = await _provider.AddNewProductAsync(cart);
+                if (newItem != null)
                 {
                     return new JsonResult(new
                     {
                         success = true,
-                        data = updateCart
+                        data = newItem
                     });
                 }
                 else
@@ -75,7 +75,7 @@ namespace ECOMERE_BE.Controllers
         //{
         //    try
         //    {
-        //        var modifiedComment = await _commentProvider.UpdateCommentAsync(id, comment);
+        //        var modifiedComment = await _provider.UpdateCommentAsync(id, comment);
         //        if (modifiedComment != null)
         //        {
         //            return new JsonResult(new
@@ -107,7 +107,7 @@ namespace ECOMERE_BE.Controllers
         //{
         //    try
         //    {
-        //        var result = await _commentProvider.DeleteCommentAsync(id);
+        //        var result = await _provider.DeleteCommentAsync(id);
         //        return new JsonResult(new { success = result });
         //    }
         //    catch (Exception ex)

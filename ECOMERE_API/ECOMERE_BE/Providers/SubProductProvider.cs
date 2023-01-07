@@ -52,6 +52,7 @@ namespace ECOMERE_BE.Providers
                 {
                     existingSubProduct.Name = modifiedSubProduct.Name;
                     existingSubProduct.ProductId = modifiedSubProduct.ProductId;
+                    existingSubProduct.Type = modifiedSubProduct.Type;
 
                     existingSubProduct.ModifiedAt = DateTime.Now;
                     await db.SaveChangesAsync();
