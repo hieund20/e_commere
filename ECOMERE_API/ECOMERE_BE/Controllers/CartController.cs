@@ -23,12 +23,18 @@ namespace ECOMERE_BE.Controllers
             try
             {
                 var allCart = await _provider.GetAllAsync();
-                return new JsonResult(new { 
+                var totalPrice = await _provider.GetTotalPriceAsync();
+                var cartNumber = await _provider.GetCartNumberAsync();
+
+                return new JsonResult(new
+                {
                     success = true,
-                    data = allCart
+                    data = allCart,
+                    totalPrice = totalPrice,
+                    cartNumber = cartNumber
                 });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new JsonResult(new
                 {
